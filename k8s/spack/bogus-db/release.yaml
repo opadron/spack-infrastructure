@@ -1,0 +1,28 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: bogus-db
+  namespace: spack
+spec:
+  releaseName: bogus-db
+  chart:
+    name: postgresql
+    repository: https://charts.helm.sh/stable
+    version: 8.6.4  # 11.7.0
+  values:
+    existingSecret: bogus-secrets
+
+    # postgresqlDatabase: some-db
+
+    persistence:
+      enabled: true
+      size: 20Gi
+
+    master:
+      nodeSelector:
+        spack.io/node-pool: base
+
+    slave:
+      nodeSelector:
+        spack.io/node-pool: base

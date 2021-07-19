@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy
+  namespace: spack
+spec:
+  selector:
+    matchLabels:
+      app: dummy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dummy
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: psql
+        command: [tail, -f, /dev/null]
+        image: postgres:13.3
+        imagePullPolicy: IfNotPresent
+      nodeSelector:
+        spack.io/node-pool: base
